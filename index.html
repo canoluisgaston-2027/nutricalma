@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriCalma | Bienestar para Gastritis y Rosácea</title>
+    <!-- Carga de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Carga de Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Carga de Phosphor Icons para iconografía moderna -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        sage: {
+                            50: '#f4f7f5',
+                            100: '#e3ebe6',
+                            200: '#c5d8cd',
+                            300: '#9cbcab',
+                            400: '#729b85',
+                            500: '#527f68',
+                            600: '#3f6552',
+                            700: '#335143',
+                            800: '#2a4136',
+                            900: '#23362d',
+                        },
+                        cream: '#faf9f6'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-cream text-slate-800 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- Barra de Navegación Superior -->
+    <header class="bg-white/90 backdrop-blur-md border-b border-sage-200 sticky top-0 z-40">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo y Título -->
+                <div class="flex items-center gap-2.5">
+                    <div class="bg-sage-600 text-white p-2 rounded-xl shadow-sm">
+                        <i class="ph ph-leaf text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-lg sm:text-xl text-sage-900 tracking-tight leading-none">NutriCalma</h1>
+                        <p class="text-[11px] sm:text-xs text-sage-600 font-medium">Gastritis & Rosácea Friendly</p>
+                    </div>
+                </div>
+
+                <!-- Navegación Desktop -->
+                <nav class="hidden md:flex space-x-2 bg-sage-50 p-1 rounded-2xl border border-sage-100">
+                    <button onclick="switchTab('semanal')" id="tab-desktop-semanal" class="nav-btn-desktop px-4 py-2 rounded-xl text-sm font-semibold transition-all bg-white text-sage-800 shadow-sm flex items-center gap-2">
+                        <i class="ph ph-calendar-blank text-lg text-sage-600"></i> Menú Semanal
+                    </button>
+                    <button onclick="switchTab('despensa')" id="tab-desktop-despensa" class="nav-btn-desktop px-4 py-2 rounded-xl text-sm font-medium text-slate-600 hover:text-sage-800 transition-all flex items-center gap-2">
+                        <i class="ph ph-cooking-pot text-lg"></i> ¿Qué tengo en casa?
+                    </button>
+                    <button onclick="switchTab('frutas')" id="tab-desktop-frutas" class="nav-btn-desktop px-4 py-2 rounded-xl text-sm font-medium text-slate-600 hover:text-sage-800 transition-all flex items-center gap-2">
+                        <i class="ph ph-orange-slice text-lg"></i> Guía de Frutas
+                    </button>
+                </nav>
+
+                <!-- Botón Info Salud -->
+                <button onclick="toggleModal('modal-tips')" class="p-2.5 rounded-xl bg-sage-100 text-sage-800 hover:bg-sage-200 transition-colors flex items-center gap-1.5 text-xs sm:text-sm font-medium">
+                    <i class="ph ph-heartbeat text-lg text-sage-700"></i>
+                    <span class="hidden sm:inline">Reglas de Oro</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navegación Inferior para Móviles -->
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-sage-200 z-40 px-2 py-1.5 shadow-lg">
+        <div class="grid grid-cols-3 gap-1">
+            <button onclick="switchTab('semanal')" id="tab-mobile-semanal" class="nav-btn-mobile flex flex-col items-center justify-center py-2 px-1 rounded-xl text-sage-700 bg-sage-50 font-semibold transition-all">
+                <i class="ph ph-calendar-blank text-xl mb-0.5"></i>
+                <span class="text-[11px]">Menú Semanal</span>
+            </button>
+            <button onclick="switchTab('despensa')" id="tab-mobile-despensa" class="nav-btn-mobile flex flex-col items-center justify-center py-2 px-1 rounded-xl text-slate-500 font-medium transition-all">
+                <i class="ph ph-cooking-pot text-xl mb-0.5"></i>
+                <span class="text-[11px]">En mi Cocina</span>
+            </button>
+            <button onclick="switchTab('frutas')" id="tab-mobile-frutas" class="nav-btn-mobile flex flex-col items-center justify-center py-2 px-1 rounded-xl text-slate-500 font-medium transition-all">
+                <i class="ph ph-orange-slice text-xl mb-0.5"></i>
+                <span class="text-[11px]">Frutas</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Contenedor Principal -->
+    <main class="flex-grow max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-24 md:pb-12">
+
+        <!-- ========================================== -->
+        <!-- SECCIÓN 1: PLANIFICADOR SEMANAL            -->
+        <!-- ========================================== -->
+        <section id="view-semanal" class="space-y-6">
+            <!-- Banner Bienvenida -->
+            <div class="bg-gradient-to-r from-sage-700 to-sage-600 rounded-3xl p-6 sm:p-8 text-white shadow-md relative overflow-hidden">
+                <div class="relative z-10 max-w-2xl">
+                    <span class="inline-block px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-xs font-medium mb-3">
+                        ✨ Selección Antiinflamatoria y Suave
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-bold mb-2">Tu Plan Semanal de Comidas</h2>
+                    <p class="text-sage-100 text-sm sm:text-base leading-relaxed">
+                        Recetas libres de irritantes, picantes, exceso de ácidos o grasas pesadas. Diseñadas para proteger tu mucosa gástrica y mantener tu piel calma.
+                    </p>
+                </div>
+                <i class="ph ph-bowl-food text-9xl text-white/10 absolute -right-4 -bottom-4 pointer-events-none"></i>
+            </div>
+
+            <!-- Selector de Días (Scroll horizontal en móvil) -->
+            <div class="flex items-center justify-between gap-2 overflow-x-auto pb-2 no-scrollbar" id="days-selector">
+                <!-- Generado dinámicamente por JS -->
+            </div>
+
+            <!-- Contenedor de Almuerzo y Cena del Día Seleccionado -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6" id="daily-meals-container">
+                <!-- Generado dinámicamente por JS -->
+            </div>
+
+            <!-- Botón para rotar sugerencias de la semana -->
+            <div class="flex justify-center pt-2">
+                <button onclick="shuffleWeeklyMenu()" class="px-5 py-3 bg-white border border-sage-300 hover:bg-sage-50 text-sage-800 rounded-2xl text-sm font-semibold shadow-sm transition-all flex items-center gap-2">
+                    <i class="ph ph-arrows-clockwise text-lg text-sage-600"></i>
+                    Generar otras combinaciones para la semana
+                </button>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- SECCIÓN 2: BUSCADOR "¿QUÉ TENGO EN CASA?"  -->
+        <!-- ========================================== -->
+        <section id="view-despensa" class="hidden space-y-6">
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-sage-200 shadow-sm">
+                <div class="max-w-2xl mb-6">
+                    <h2 class="text-2xl font-bold text-slate-800 mb-2 flex items-center gap-2">
+                        <i class="ph ph-magnifying-glass text-sage-600"></i> ¿No sabes qué cocinar hoy?
+                    </h2>
+                    <p class="text-slate-600 text-sm sm:text-base">
+                        Selecciona los ingredientes seguros que tienes en tu heladera o alacena, o escríbelos abajo. Te mostraré qué recetas puedes preparar.
+                    </p>
+                </div>
+
+                <!-- Buscador de texto rápido -->
+                <div class="relative mb-6">
+                    <i class="ph ph-plus-circle absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xl"></i>
+                    <input type="text" id="custom-ingredient-input" placeholder="Escribe un ingrediente (ej. pollo, zapallo, arroz) y presiona Enter..." 
+                        class="w-full pl-12 pr-24 py-3.5 bg-sage-50/70 border border-sage-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-sage-500 focus:bg-white transition-all">
+                    <button onclick="addCustomIngredient()" class="absolute right-2 top-1/2 -translate-y-1/2 px-4 py-1.5 bg-sage-600 text-white text-xs font-semibold rounded-xl hover:bg-sage-700 transition-colors">
+                        Agregar
+                    </button>
+                </div>
+
+                <!-- Etiquetas de ingredientes comunes seguros -->
+                <div class="mb-4">
+                    <div class="flex items-center justify-between mb-2.5">
+                        <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Ingredientes Seguros Frecuentes (Toca para elegir):</span>
+                        <button onclick="clearSelectedIngredients()" class="text-xs text-rose-600 hover:underline font-medium">Limpiar todo</button>
+                    </div>
+                    <div class="flex flex-wrap gap-2" id="ingredient-chips-container">
+                        <!-- Chips generados por JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resultados de Coincidencias -->
+            <div>
+                <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2" id="match-results-title">
+                    Selecciona al menos un ingrediente para ver recetas
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="pantry-results-container">
+                    <!-- Tarjetas de recetas coincidentes -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- SECCIÓN 3: GUÍA DE FRUTAS                  -->
+        <!-- ========================================== -->
+        <section id="view-frutas" class="hidden space-y-6">
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-sage-200 shadow-sm">
+                <h2 class="text-2xl font-bold text-slate-800 mb-2">Semáforo de Frutas para Gastritis y Rosácea</h2>
+                <p class="text-slate-600 text-sm sm:text-base mb-6">
+                    Algunas frutas son demasiado ácidas para el estómago o altas en histamina (lo que dispara el enrojecimiento facial en la rosácea). Aquí tienes tu guía segura:
+                </p>
+
+                <!-- Filtros de categoría de fruta -->
+                <div class="flex flex-wrap gap-2 mb-6">
+                    <button onclick="filterFruits('todas')" class="fruit-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-800 text-white transition-all" data-filter="todas">
+                        Todas
+                    </button>
+                    <button onclick="filterFruits('permitida')" class="fruit-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 transition-all" data-filter="permitida">
+                        🟢 Ideales y Seguras
+                    </button>
+                    <button onclick="filterFruits('moderada')" class="fruit-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100 transition-all" data-filter="moderada">
+                        🟡 Con Moderación
+                    </button>
+                    <button onclick="filterFruits('evitar')" class="fruit-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-100 transition-all" data-filter="evitar">
+                        🔴 Mejor Evitar
+                    </button>
+                </div>
+
+                <!-- Grid de Frutas -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="fruits-grid">
+                    <!-- Generado dinámicamente por JS -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ========================================== -->
+    <!-- MODAL DETALLE DE RECETA                    -->
+    <!-- ========================================== -->
+    <div id="modal-recipe" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-sage-100 animate-fade-in">
+            <div class="p-6 sm:p-8" id="modal-recipe-content">
+                <!-- Contenido inyectado por JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- MODAL REGLAS DE ORO (CONSEJOS DE SALUD)    -->
+    <!-- ========================================== -->
+    <div id="modal-tips" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 sm:p-8">
+            <div class="flex justify-between items-start mb-4">
+                <div class="flex items-center gap-2.5">
+                    <div class="p-2 bg-sage-100 text-sage-700 rounded-xl">
+                        <i class="ph ph-sparkle text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800">Claves para tu Bienestar</h3>
+                </div>
+                <button onclick="toggleModal('modal-tips')" class="p-2 text-slate-400 hover:text-slate-600 rounded-xl hover:bg-slate-100">
+                    <i class="ph ph-x text-xl"></i>
+                </button>
+            </div>
+            
+            <div class="space-y-4 text-sm text-slate-600">
+                <div class="p-4 bg-sage-50 rounded-2xl border border-sage-100">
+                    <h4 class="font-bold text-sage-900 mb-1">🌡️ Temperatura de la comida</h4>
+                    <p>Para la <strong>rosácea y gastritis</strong>, evita comer alimentos o bebidas hirviendo. Deja que los platos entibien antes de comer para evitar vasodilatación facial e irritación estomacal.</p>
+                </div>
+                <div class="p-4 bg-amber-50/70 rounded-2xl border border-amber-100">
+                    <h4 class="font-bold text-amber-900 mb-1">🌿 Condimentos amigos vs. enemigos</h4>
+                    <p><strong>Usa:</strong> Cúrcuma (antiinflamatoria), perejil, albahaca, orégano suave, laurel, sal baja en sodio y aceite de oliva extra virgen en crudo.<br>
+                    <strong>Evita:</strong> Pimienta, ají molido, pimentón picante, ajo crudo en exceso, vinagre, salsa de soja y caldos industriales.</p>
+                </div>
+                <div class="p-4 bg-sky-50/70 rounded-2xl border border-sky-100">
+                    <h4 class="font-bold text-sky-900 mb-1">🍳 Métodos de cocción</h4>
+                    <p>Prioriza el vapor, hervido, al horno suave o a la plancha sin quemar los alimentos. Evita frituras y salteados con mucho aceite.</p>
+                </div>
+            </div>
+
+            <button onclick="toggleModal('modal-tips')" class="w-full mt-6 py-3 bg-sage-600 hover:bg-sage-700 text-white font-semibold rounded-2xl transition-colors">
+                ¡Entendido!
+            </button>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- LÓGICA JAVASCRIPT Y BASE DE DATOS          -->
+    <!-- ========================================== -->
+    <script>
+        // Base de datos de recetas cuidadosamente seleccionadas (Sin picantes, sin tomate, bajas en histamina, suaves)
+        const recipesDB = [
+            {
+                id: 1,
+                title: "Pechuga de Pollo a la Plancha con Puré de Zapallo y Zanahoria",
+                type: "Almuerzo",
+                prepTime: "25 min",
+                benefits: "El betacaroteno del zapallo y la zanahoria repara la mucosa gástrica y calma la piel.",
+                ingredients: ["pollo", "zapallo", "zanahoria", "aceite de oliva", "oregano", "sal"],
+                displayIngredients: [
+                    "1 pechuga de pollo sin piel",
+                    "250g de zapallo (calabaza)",
+                    "1 zanahoria mediana",
+                    "1 cda de aceite de oliva extra virgen",
+                    "Pizca de orégano y sal suave"
+                ],
+                steps: [
+                    "Pela y corta el zapallo y la zanahoria en cubos. Hiérvelos o cocínalos al vapor hasta que estén muy tiernos.",
+                    "Pisá los vegetales con un tenedor agregando el aceite de oliva en crudo y una pizca de sal hasta lograr un puré cremoso.",
+                    "Cocina la pechuga de pollo a la plancha a fuego medio con orégano hasta que esté bien cocida pero jugosa (sin dorar en exceso).",
+                    "Sirve tibio para evitar el calor extremo en el rostro y estómago."
+                ]
+            },
+            {
+                id: 2,
+                title: "Filet de Merluza al Papillote con Calabacín y Papa",
+                type: "Cena",
+                prepTime: "30 min",
+                benefits: "Cocción al vapor en su propio jugo; proteína de muy fácil digestión nocturna y rica en Omega-3.",
+                ingredients: ["merluza", "pescado", "calabacin", "zucchini", "papa", "aceite de oliva", "perejil"],
+                displayIngredients: [
+                    "1 filet de merluza fresco (sin espinas)",
+                    "1 papa mediana en rodajas finas",
+                    "1/2 calabacín (zucchini) en rodajas",
+                    "Perejil fresco picado",
+                    "1 cdita de aceite de oliva"
+                ],
+                steps: [
+                    "Precalienta el horno a 180°C.",
+                    "Sobre un trozo de papel manteca o aluminio, coloca una base de rodajas finas de papa y calabacín.",
+                    "Coloca encima el filet de merluza, rocía con aceite de oliva, perejil fresco y una pizca de sal.",
+                    "Cierra el paquete herméticamente y hornea por 20 minutos. Deja entibiar 5 minutos antes de abrir y comer."
+                ]
+            },
+            {
+                id: 3,
+                title: "Risotto Suave de Arroz Blanco, Pollo y Espárragos",
+                type: "Almuerzo",
+                prepTime: "30 min",
+                benefits: "El almidón del arroz actúa como protector estomacal natural y los espárragos son prebióticos suaves.",
+                ingredients: ["arroz", "pollo", "esparragos", "caldo casero", "aceite de oliva", "curcuma"],
+                displayIngredients: [
+                    "1 taza de arroz blanco o doble carolina",
+                    "150g de pechuga de pollo en cubitos",
+                    "5 espárragos verdes (solo las puntas y tallos tiernos)",
+                    "2.5 tazas de caldo casero de verduras (sin cebolla ni ajo crudo)",
+                    "1 pizca de cúrcuma (antiinflamatoria)"
+                ],
+                steps: [
+                    "En una olla, cocina los cubitos de pollo con un chorrito mínimo de aceite de oliva y una pizca de cúrcuma.",
+                    "Agrega el arroz y nacara por 1 minuto. Añade el caldo casero caliente de a poco mientras revuelves.",
+                    "A mitad de cocción (minuto 10), incorpora los espárragos cortados en trozos pequeños.",
+                    "Cocina hasta que el arroz esté cremoso y tierno. Apaga el fuego y deja reposar 5 minutos."
+                ]
+            },
+            {
+                id: 4,
+                title: "Crema Tibia de Calabaza y Arroz con Huevo Poché",
+                type: "Cena",
+                prepTime: "25 min",
+                benefits: "Cena reconfortante, alcalina y ligera que evita el reflujo nocturno.",
+                ingredients: ["zapallo", "calabaza", "arroz", "huevo", "aceite de oliva"],
+                displayIngredients: [
+                    "300g de calabaza o zapallo",
+                    "2 cdas de arroz blanco",
+                    "1 huevo fresco",
+                    "1 cdita de aceite de oliva",
+                    "Agua o caldo suave de vegetales"
+                ],
+                steps: [
+                    "Hierve la calabaza en cubos junto con las 2 cucharadas de arroz en agua con una pizca de sal por 18 minutos.",
+                    "Licúa o procesa todo hasta obtener una crema aterciopelada (el arroz le dará una textura suave sin necesidad de crema de leche).",
+                    "Aparte, cocina el huevo en agua hirviendo suave por 4 minutos (huevo pasado por agua o poché).",
+                    "Sirve la crema tibia con el huevo encima y un hilo de aceite de oliva."
+                ]
+            },
+            {
+                id: 5,
+                title: "Tortilla Española Suave al Horno (Sin Fritura)",
+                type: "Cena",
+                prepTime: "35 min",
+                benefits: "Todo el sabor tradicional pero sin grasas fritas que inflaman la piel o irritan el estómago.",
+                ingredients: ["papa", "huevo", "calabacin", "zucchini", "aceite de oliva"],
+                displayIngredients: [
+                    "2 papas medianas",
+                    "1/2 zucchini (opcional, aporta humedad)",
+                    "3 huevos",
+                    "1 cda de aceite de oliva",
+                    "Sal suave"
+                ],
+                steps: [
+                    "Corta las papas y el zucchini en láminas finas. Cocínalos al vapor o en microondas con un chorrito de agua hasta que estén tiernos.",
+                    "Bate los huevos en un bowl con una pizca de sal e incorpora las papas y el zucchini tibios.",
+                    "Vierte la mezcla en una fuente pequeña aceitada (o molde de silicona) y hornea a 180°C por 15-20 minutos hasta que cuaje.",
+                    "Disfruta tibia acompañada de hojas verdes suaves."
+                ]
+            },
+            {
+                id: 6,
+                title: "Fideos de Arroz o Pasta Blanca con Salsa Cremosa de Zucchini",
+                type: "Almuerzo",
+                prepTime: "20 min",
+                benefits: "Alternativa deliciosa a las salsas de tomate ácidas que detonan la rosácea y la acidez.",
+                ingredients: ["fideos", "pasta", "calabacin", "zucchini", "queso crema", "albahaca", "aceite de oliva"],
+                displayIngredients: [
+                    "1 porción de fideos (pueden ser tradicionales o de arroz)",
+                    "1 zucchini mediano",
+                    "1 cda de queso crema descremado o ricota magra",
+                    "Hojas de albahaca fresca",
+                    "1 cdita de aceite de oliva"
+                ],
+                steps: [
+                    "Hierve los fideos según las instrucciones del paquete.",
+                    "Mientras tanto, cocina el zucchini pelado y en cubos al vapor o hervido por 8 minutos.",
+                    "Procesa el zucchini cocido con el queso crema, albahaca fresca, aceite de oliva y una pizca de sal hasta lograr una salsa verde suave.",
+                    "Mezcla la pasta con la salsa tibia y sirve de inmediato."
+                ]
+            },
+            {
+                id: 7,
+                title: "Budín de Pollo y Zanahoria al Vapor o Horno",
+                type: "Almuerzo",
+                prepTime: "40 min",
+                benefits: "Textura ultra suave ideal para días de estómago sensible.",
+                ingredients: ["pollo", "zanahoria", "huevo", "avena", "queso crema"],
+                displayIngredients: [
+                    "200g de pechuga de pollo cocida o cruda procesada",
+                    "1 zanahoria rallada fina",
+                    "2 huevos",
+                    "2 cdas de avena fina o fécula de maíz",
+                    "1 cda de queso crema suave"
+                ],
+                steps: [
+                    "Procesa el pollo con los huevos, el queso crema, la avena y una pizca de sal.",
+                    "Incorpora la zanahoria rallada fina mezclando con cuchara.",
+                    "Coloca en una budinera pequeña engrasada y cocina a baño María en el horno a 180°C durante 25-30 minutos.",
+                    "Deja entibiar antes de desmoldar y cortar."
+                ]
+            },
+            {
+                id: 8,
+                title: "Salteado Suave de Pavo/Pollo, Arroz Integral Blanco y Brócoli Tierno",
+                type: "Almuerzo",
+                prepTime: "25 min",
+                benefits: "Aporta antioxidantes suaves y fibra soluble sin irritar.",
+                ingredients: ["pollo", "pavo", "arroz", "brocoli", "zanahoria", "aceite de oliva"],
+                displayIngredients: [
+                    "150g de pechuga de pollo o pavo en tiras",
+                    "1 taza de arroz blanco cocido",
+                    "1 taza de flores de brócoli (bien cocidas)",
+                    "1/2 zanahoria en tiras finas",
+                    "1 cdita de aceite de oliva"
+                ],
+                steps: [
+                    "Cocina al vapor las flores de brócoli y las tiras de zanahoria hasta que estén bien blandas (los vegetales crudos o muy duros cuestan más de digerir).",
+                    "En una sartén antiadherente con apenas aceite de oliva, cocina las tiras de pollo a fuego suave.",
+                    "Incorpora los vegetales cocidos y el arroz, integra por 2 minutos con una pizca de sal y sirve tibio."
+                ]
+            },
+            {
+                id: 9,
+                title: "Omelette Relleno de Ricota Magra y Espinacas Cocidas",
+                type: "Cena",
+                prepTime: "15 min",
+                benefits: "Rápido, nutritivo y libre de quesos fermentados o maduros que contienen histamina.",
+                ingredients: ["huevo", "ricota", "espinaca", "aceite de oliva"],
+                displayIngredients: [
+                    "2 huevos",
+                    "2 cdas de ricota magra fresca",
+                    "1 puñado de hojas de espinaca fresca",
+                    "1 cdita de aceite de oliva"
+                ],
+                steps: [
+                    "Blanquea las hojas de espinaca en agua caliente por 1 minuto, escúrrelas bien y pícalas.",
+                    "Mezcla la espinaca con la ricota fresca y una pizca de sal.",
+                    "Bate los huevos y cuájalos en una sartén antiadherente con unas gotas de aceite a fuego bajo.",
+                    "Rellena con la mezcla de ricota, dobla el omelette y sirve tibio."
+                ]
+            },
+            {
+                id: 10,
+                title: "Papas Rellenas de Atún al Natural y Calabacín",
+                type: "Cena",
+                prepTime: "35 min",
+                benefits: "Usa atún al natural (en agua, lavado) para evitar aceites pesados y aportar proteínas limpias.",
+                ingredients: ["papa", "atun", "calabacin", "zucchini", "queso crema", "perejil"],
+                displayIngredients: [
+                    "2 papas medianas",
+                    "1 lata de atún al natural (escurrido y enjuagado)",
+                    "1/2 zucchini picado y cocido al vapor",
+                    "1 cda de queso crema suave",
+                    "Perejil fresco"
+                ],
+                steps: [
+                    "Hierve las papas enteras con piel hasta que estén tiernas. Córtalas a la mitad y ahueca un poco el centro.",
+                    "Mezcla el puré que sacaste con el atún al natural, el zucchini cocido, el queso crema y perejil.",
+                    "Rellena las papas y llévalas a horno suave por 10 minutos para integrar."
+                ]
+            },
+            {
+                id: 11,
+                title: "Polenta Cremosa con Pollo Desmenuzado y Zapallito Verde",
+                type: "Cena",
+                prepTime: "20 min",
+                benefits: "La harina de maíz (polenta) es súper digestiva, reconfortante y libre de gluten e irritantes.",
+                ingredients: ["polenta", "pollo", "zapallito", "calabacin", "queso crema", "aceite de oliva"],
+                displayIngredients: [
+                    "1/2 taza de polenta de cocción rápida",
+                    "150g de pechuga de pollo hervida y desmenuzada",
+                    "1 zapallito verde (redondo) picado sin semillas",
+                    "1 cda de queso crema descremado",
+                    "1 cdita de aceite de oliva y sal suave"
+                ],
+                steps: [
+                    "Hierve 2 tazas de agua o caldo casero suave con el zapallito picado bien chiquito durante 6 minutos hasta que esté tierno.",
+                    "Agrega la polenta en forma de lluvia revolviendo constantemente por 2 minutos hasta que espese.",
+                    "Apaga el fuego, incorpora el queso crema, el aceite de oliva y el pollo desmenuzado tibio.",
+                    "Deja entibiar unos minutos antes de servir."
+                ]
+            },
+            {
+                id: 12,
+                title: "Milanesas de Pollo al Horno con Puré Mixto (Papa y Zanahoria)",
+                type: "Almuerzo",
+                prepTime: "35 min",
+                benefits: "Un clásico argentino adaptado: sin fritura, sin ajo ni perejil crudo en exceso y con cocción suave.",
+                ingredients: ["pollo", "pan rallado", "avena", "huevo", "papa", "zanahoria", "aceite de oliva"],
+                displayIngredients: [
+                    "2 filetes de pechuga de pollo finos",
+                    "1 huevo batido con una pizca de sal",
+                    "Pan rallado o avena extrafina para rebozar",
+                    "1 papa mediana y 1 zanahoria",
+                    "1 cdita de aceite de oliva"
+                ],
+                steps: [
+                    "Pasa las pechugas por huevo batido y luego por pan rallado o avena fina.",
+                    "Colócalas en una placa apenas aceitada y hornea a 180°C por 15-20 minutos (dándolas vuelta a la mitad, sin quemar el rebozado).",
+                    "Mientras tanto, hierve la papa y la zanahoria, písalas con un chorrito de aceite de oliva y acompaña."
+                ]
+            },
+            {
+                id: 13,
+                title: "Zapallitos Verdes Rellenos de Pollo y Ricota al Horno",
+                type: "Almuerzo",
+                prepTime: "40 min",
+                benefits: "El zapallito verde es muy alcalino, alto en agua y sumamente amable con la gastritis.",
+                ingredients: ["zapallito", "pollo", "ricota", "zanahoria", "huevo", "oregano"],
+                displayIngredients: [
+                    "2 zapallitos verdes redondos",
+                    "150g de pollo picado bien chiquito o procesado",
+                    "2 cdas de ricota magra fresca",
+                    "1/2 zanahoria rallada fina",
+                    "1 clara de huevo y pizca de orégano"
+                ],
+                steps: [
+                    "Hierve los zapallitos enteros por 8 minutos. Córtalos al medio y ahueca la pulpa (retirando las semillas grandes).",
+                    "Mezcla la pulpa picada con el pollo cocido desmenuzado, la zanahoria rallada, la ricota y la clara.",
+                    "Rellena los zapallitos y llévalos a horno moderado por 15 minutos hasta que estén tiernos."
+                ]
+            },
+            {
+                id: 14,
+                title: "Pastel de Papas Suave con Carne Magra (Sin Condimentos Picantes)",
+                type: "Almuerzo",
+                prepTime: "45 min",
+                benefits: "Usando carne magra (nalga o bola de lomo picada) sin frituras ni ají, logras un plato completo y seguro.",
+                ingredients: ["carne", "papa", "zanahoria", "calabacin", "aceite de oliva", "oregano"],
+                displayIngredients: [
+                    "200g de carne vacuna magra picada (sin grasa)",
+                    "2 papas medianas",
+                    "1/2 zanahoria rallada fina",
+                    "1 cdita de aceite de oliva",
+                    "Orégano y sal suave"
+                ],
+                steps: [
+                    "Hierve las papas y haz un puré suave con un chorrito de agua de cocción y aceite de oliva.",
+                    "En una sartén con apenas aceite y 2 cucharadas de agua, cocina la carne magra junto con la zanahoria rallada y orégano hasta que esté bien cocida (sin dorar de más).",
+                    "En una fuente chica coloca la base de carne, cubre con el puré y lleva a horno suave 10 minutos."
+                ]
+            },
+            {
+                id: 15,
+                title: "Guiso Liviano de Arroz, Calabaza y Carne Magra en Cubitos",
+                type: "Almuerzo",
+                prepTime: "35 min",
+                benefits: "Sin salsa de tomate ni chorizo: la calabaza deshecha le da color y cremosidad natural sin acidez.",
+                ingredients: ["arroz", "carne", "zapallo", "calabaza", "papa", "zanahoria", "laurel"],
+                displayIngredients: [
+                    "150g de carne magra en cubitos pequeños",
+                    "1 taza de arroz blanco",
+                    "200g de zapallo en cubos",
+                    "1 papa chica y 1/2 zanahoria en cubos",
+                    "1 hoja de laurel y agua o caldo casero"
+                ],
+                steps: [
+                    "En una olla con un hilo de aceite de oliva, sella suavemente los cubitos de carne con la hoja de laurel.",
+                    "Agrega la zanahoria, la papa, el zapallo y cubre con agua o caldo suave. Cocina 12 minutos.",
+                    "Incorpora el arroz y cocina 15 minutos más hasta que el zapallo se deshaga formando una salsa cremosa natural."
+                ]
+            },
+            {
+                id: 16,
+                title: "Bife de Cuadril o Lomo a la Plancha con Ensalada Tibia de Chauchas y Papa",
+                type: "Almuerzo",
+                prepTime: "25 min",
+                benefits: "Las chauchas (judías verdes) cocidas son muy bien toleradas y aportan fibra suave.",
+                ingredients: ["carne", "bife", "chauchas", "papa", "aceite de oliva"],
+                displayIngredients: [
+                    "1 bife magro (cuadril, lomo o peceto)",
+                    "1 taza de chauchas verdes limpias",
+                    "1 papa mediana",
+                    "1 cdita de aceite de oliva extra virgen"
+                ],
+                steps: [
+                    "Hierve o cocina al vapor las chauchas y la papa cortada en cubos hasta que estén bien tiernas.",
+                    "Cocina el bife a la plancha a fuego medio hasta que esté bien cocido pero tierno (evita partes quemadas).",
+                    "Sirve el bife con las papas y chauchas tibias condimentadas con aceite de oliva en crudo y sal suave."
+                ]
+            },
+            {
+                id: 17,
+                title: "Sopa Crema Casera de Zapallito, Papa y Pollo",
+                type: "Cena",
+                prepTime: "25 min",
+                benefits: "Ideal para las noches frescas; hidrata, desinflama y facilita un descanso sin pesadez.",
+                ingredients: ["zapallito", "papa", "pollo", "aceite de oliva", "perejil"],
+                displayIngredients: [
+                    "2 zapallitos verdes sin semillas",
+                    "1 papa mediana",
+                    "100g de pechuga de pollo en trocitos",
+                    "1 cdita de aceite de oliva",
+                    "Hojitas de perejil"
+                ],
+                steps: [
+                    "Hierve el pollo junto con la papa y los zapallitos troceados en 2 tazas de agua con una pizca de sal por 18 minutos.",
+                    "Retira el pollo, licúa los vegetales con el caldo hasta formar una crema suave.",
+                    "Desmenuza el pollo dentro de la crema, agrega aceite de oliva y deja entibiar antes de tomar."
+                ]
+            },
+            {
+                id: 18,
+                title: "Croquetas de Arroz, Zanahoria y Queso Suave al Horno",
+                type: "Cena",
+                prepTime: "30 min",
+                benefits: "Excelente para aprovechar arroz cocido que tengas en la heladera de forma saludable.",
+                ingredients: ["arroz", "zanahoria", "huevo", "queso crema", "avena"],
+                displayIngredients: [
+                    "1.5 tazas de arroz blanco ya cocido",
+                    "1/2 zanahoria rallada bien fina",
+                    "1 huevo",
+                    "1 cda de queso crema o ricota",
+                    "2 cdas de avena fina o pan rallado"
+                ],
+                steps: [
+                    "Mezcla en un bowl el arroz cocido, la zanahoria rallada, el huevo, el queso crema y la avena hasta formar una pasta manejable.",
+                    "Forma bolitas o medallones achatados y colócalos en una placa apenas aceitada.",
+                    "Hornea a 180°C por 15-20 minutos hasta que tomen firmeza."
+                ]
+            },
+            {
+                id: 19,
+                title: "Ñoquis de Papa Caseros con Manteca Clarificada (Ghee) o Oliva y Albahaca",
+                type: "Almuerzo",
+                prepTime: "40 min",
+                benefits: "Platos reconfortantes sin salsas rojas ni cremas pesadas.",
+                ingredients: ["papa", "harina", "huevo", "albahaca", "aceite de oliva"],
+                displayIngredients: [
+                    "300g de papa hervida y hecha puré",
+                    "100g de harina común o de arroz",
+                    "1 yema de huevo",
+                    "Hojas de albahaca fresca picada",
+                    "1 cda de aceite de oliva extra virgen"
+                ],
+                steps: [
+                    "Mezcla el puré de papa frío con la yema, una pizca de sal y la harina de a poco hasta formar una masa tierna.",
+                    "Forma rollitos, corta los ñoquis y hiérvelos en agua con sal hasta que suban a la superficie.",
+                    "Escurre y sirve tibios con aceite de oliva y albahaca fresca."
+                ]
+            },
+            {
+                id: 20,
+                title: "Peceto o Carne Magra al Horno en Bolsa con Batata y Zanahoria",
+                type: "Almuerzo",
+                prepTime: "50 min",
+                benefits: "La batata (camote) es dulce, alcalina y excelente para calmar la acidez estomacal.",
+                ingredients: ["carne", "batata", "zanahoria", "laurel", "aceite de oliva"],
+                displayIngredients: [
+                    "200g de peceto o colita de cuadril sin grasa",
+                    "1 batata (camote) mediana en rodajas",
+                    "1 zanahoria en rodajas",
+                    "1 hoja de laurel y 1/2 taza de agua"
+                ],
+                steps: [
+                    "Coloca la carne magra junto con las rodajas de batata y zanahoria en una fuente tapada con papel aluminio o bolsa para horno.",
+                    "Añade el laurel, media taza de agua y una pizca de sal para que se cocine en su propio vapor.",
+                    "Hornea a 180°C por 40-45 minutos hasta que todo esté muy tierno. Deja entibiar antes de servir."
+                ]
+            }
+        ];
+
+        // Lista de ingredientes comunes para el buscador rápido
+        const commonIngredients = [
+            { id: "pollo", label: "🍗 Pollo" },
+            { id: "carne", label: "🥩 Carne magra" },
+            { id: "arroz", label: "🍚 Arroz" },
+            { id: "zapallo", label: "🎃 Zapallo / Calabaza" },
+            { id: "zapallito", label: "🟢 Zapallito verde" },
+            { id: "zanahoria", label: "🥕 Zanahoria" },
+            { id: "papa", label: "🥔 Papa" },
+            { id: "batata", label: "🍠 Batata / Camote" },
+            { id: "huevo", label: "🥚 Huevo" },
+            { id: "calabacin", label: "🥒 Calabacín / Zucchini" },
+            { id: "merluza", label: "🐟 Merluza / Pescado" },
+            { id: "fideos", label: "🍝 Fideos / Pasta" },
+            { id: "polenta", label: "🌽 Polenta" },
+            { id: "espinaca", label: "🥬 Espinaca" },
+            { id: "ricota", label: "🧀 Ricota / Queso crema" },
+            { id: "brocoli", label: "🥦 Brócoli" },
+            { id: "chauchas", label: "🫛 Chauchas" },
+            { id: "atun", label: "🥫 Atún al natural" },
+            { id: "esparragos", label: "🌱 Espárragos" },
+            { id: "avena", label: "🌾 Avena" }
+        ];
+
+        // Base de datos de Frutas para Gastritis y Rosácea
+        const fruitsDB = [
+            {
+                name: "Manzana Roja o Verde (dulce)",
+                status: "permitida",
+                badge: "Ideal",
+                emoji: "🍎",
+                reason: "Rica en pectina, protege la mucosa del estómago. Si tienes gastritis aguda, cómela pelada o al horno/compota."
+            },
+            {
+                name: "Pera Madura",
+                status: "permitida",
+                badge: "Ideal",
+                emoji: "🍐",
+                reason: "Muy baja en acidez, hidratante, rica en fibra suave y baja en histamina. Excelente para la piel y digestión."
+            },
+            {
+                name: "Melón",
+                status: "permitida",
+                badge: "Ideal",
+                emoji: "🍈",
+                reason: "Alcalino, muy suave y refrescante. Ayuda a mantener la temperatura corporal fresca (ideal para rosácea)."
+            },
+            {
+                name: "Sandía",
+                status: "permitida",
+                badge: "Ideal",
+                emoji: "🍉",
+                reason: "92% agua, muy baja acidez y altamente refrescante. Consúmela a temperatura fresca (no helada de freezer)."
+            },
+            {
+                name: "Papaya / Mamón",
+                status: "permitida",
+                badge: "Ideal",
+                emoji: "🧡",
+                reason: "Contiene papaína, una enzima digestiva natural maravillosa para desinflamar el estómago."
+            },
+            {
+                name: "Durazno / Melocotón Pelado",
+                status: "moderada",
+                badge: "Con moderación",
+                emoji: "🍑",
+                reason: "Generalmente bien tolerado si está bien maduro y sin piel. Prueba en pequeñas cantidades."
+            },
+            {
+                name: "Arándanos",
+                status: "moderada",
+                badge: "Con moderación",
+                emoji: "🫐",
+                reason: "Excelentes antioxidantes para la rosácea, pero en gastritis activa consúmelos en poca cantidad y junto a avena o yogur suave."
+            },
+            {
+                name: "Uvas Dulces (sin piel ni semillas)",
+                status: "moderada",
+                badge: "Con moderación",
+                emoji: "🍇",
+                reason: "Bajas en histamina, pero su piel puede resultar pesada si el estómago está inflamado."
+            },
+            {
+                name: "Banana / Plátano",
+                status: "evitar",
+                badge: "Evitar (Brote Rosácea)",
+                emoji: "🍌",
+                reason: "Aunque es suave para el estómago, es rica en histamina y aminas vasoactivas que dilatan los vasos sanguíneos y desencadenan brotes o enrojecimiento facial en la rosácea."
+            },
+            {
+                name: "Cítricos (Naranja, Limón, Pomelo, Mandarina)",
+                status: "evitar",
+                badge: "Evitar",
+                emoji: "🍊",
+                reason: "Su alta acidez irrita directamente la mucosa gástrica y son liberadores de histamina que provocan brotes de rosácea."
+            },
+            {
+                name: "Frutillas / Fresas",
+                status: "evitar",
+                badge: "Evitar",
+                emoji: "🍓",
+                reason: "Son uno de los principales detonantes de histamina en la rosácea (causan rubor) y tienen semillas irritantes."
+            },
+            {
+                name: "Piña / Ananá y Kiwi",
+                status: "evitar",
+                badge: "Evitar",
+                emoji: "🍍",
+                reason: "Muy ácidos y altos en histamina; pueden provocar ardor estomacal y enrojecimiento facial inmediato."
+            }
+        ];
+
+        // Estado de la aplicación
+        const daysOfWeek = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
+        let selectedDayIndex = 0; // Lunes por defecto
+        let weeklyPlan = [];
+        let selectedIngredients = new Set();
+
+        // Inicialización al cargar la ventana
+        window.onload = function() {
+            generateWeeklyPlan();
+            renderDaysSelector();
+            renderDailyMeals();
+            renderIngredientChips();
+            renderFruits('todas');
+
+            // Permitir agregar ingrediente con Enter
+            document.getElementById('custom-ingredient-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    addCustomIngredient();
+                }
+            });
+        };
+
+        // Cambiar de pestaña (Menú Semanal / Despensa / Frutas)
+        function switchTab(tabName) {
+            // Ocultar todas las vistas
+            ['semanal', 'despensa', 'frutas'].forEach(t => {
+                document.getElementById(`view-${t}`).classList.add('hidden');
+                
+                // Reset estilos desktop
+                const btnDesktop = document.getElementById(`tab-desktop-${t}`);
+                btnDesktop.className = "nav-btn-desktop px-4 py-2 rounded-xl text-sm font-medium text-slate-600 hover:text-sage-800 transition-all flex items-center gap-2";
+                
+                // Reset estilos mobile
+                const btnMobile = document.getElementById(`tab-mobile-${t}`);
+                btnMobile.className = "nav-btn-mobile flex flex-col items-center justify-center py-2 px-1 rounded-xl text-slate-500 font-medium transition-all";
+            });
+
+            // Mostrar vista activa
+            document.getElementById(`view-${tabName}`).classList.remove('hidden');
+
+            // Activar botón desktop
+            const activeDesktop = document.getElementById(`tab-desktop-${tabName}`);
+            activeDesktop.className = "nav-btn-desktop px-4 py-2 rounded-xl text-sm font-semibold transition-all bg-white text-sage-800 shadow-sm flex items-center gap-2";
+
+            // Activar botón mobile
+            const activeMobile = document.getElementById(`tab-mobile-${tabName}`);
+            activeMobile.className = "nav-btn-mobile flex flex-col items-center justify-center py-2 px-1 rounded-xl text-sage-700 bg-sage-50 font-semibold transition-all";
+        }
+
+        // Generar menú semanal equilibrado
+        function generateWeeklyPlan() {
+            const lunches = recipesDB.filter(r => r.type === "Almuerzo");
+            const dinners = recipesDB.filter(r => r.type === "Cena");
+
+            weeklyPlan = daysOfWeek.map((day, idx) => {
+                return {
+                    day: day,
+                    lunch: lunches[idx % lunches.length],
+                    dinner: dinners[idx % dinners.length]
+                };
+            });
+        }
+
+        // Rotar combinaciones semanalmente
+        function shuffleWeeklyMenu() {
+            const lunches = [...recipesDB.filter(r => r.type === "Almuerzo")].sort(() => Math.random() - 0.5);
+            const dinners = [...recipesDB.filter(r => r.type === "Cena")].sort(() => Math.random() - 0.5);
+
+            weeklyPlan = daysOfWeek.map((day, idx) => {
+                return {
+                    day: day,
+                    lunch: lunches[idx % lunches.length],
+                    dinner: dinners[idx % dinners.length]
+                };
+            });
+            renderDailyMeals();
+        }
+
+        // Renderizar barra de días
+        function renderDaysSelector() {
+            const container = document.getElementById('days-selector');
+            container.innerHTML = daysOfWeek.map((day, index) => {
+                const isSelected = index === selectedDayIndex;
+                return `
+                    <button onclick="selectDay(${index})" 
+                        class="px-5 py-2.5 rounded-2xl text-sm font-semibold whitespace-nowrap transition-all flex-shrink-0 ${
+                            isSelected 
+                            ? 'bg-sage-700 text-white shadow-md scale-[1.02]' 
+                            : 'bg-white text-slate-600 border border-sage-200 hover:bg-sage-50'
+                        }">
+                        ${day}
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function selectDay(index) {
+            selectedDayIndex = index;
+            renderDaysSelector();
+            renderDailyMeals();
+        }
+
+        // Renderizar Almuerzo y Cena del día seleccionado
+        function renderDailyMeals() {
+            const plan = weeklyPlan[selectedDayIndex];
+            const container = document.getElementById('daily-meals-container');
+
+            container.innerHTML = [plan.lunch, plan.dinner].map(meal => `
+                <div class="bg-white rounded-3xl p-6 sm:p-7 border border-sage-200 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between gap-2 mb-4">
+                            <span class="px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
+                                meal.type === 'Almuerzo' 
+                                ? 'bg-amber-100 text-amber-800' 
+                                : 'bg-indigo-100 text-indigo-800'
+                            }">
+                                ${meal.type === 'Almuerzo' ? '☀️ Almuerzo' : '🌙 Cena'}
+                            </span>
+                            <span class="text-xs font-medium text-slate-500 flex items-center gap-1">
+                                <i class="ph ph-clock text-base"></i> ${meal.prepTime}
+                            </span>
+                        </div>
+
+                        <h3 class="text-xl font-bold text-slate-800 mb-3 leading-snug">${meal.title}</h3>
+                        
+                        <div class="p-3.5 bg-sage-50 rounded-2xl border border-sage-100 mb-5 flex items-start gap-2.5">
+                            <i class="ph ph-heart-straight text-sage-600 text-lg flex-shrink-0 mt-0.5"></i>
+                            <p class="text-xs sm:text-sm text-sage-800 leading-relaxed">${meal.benefits}</p>
+                        </div>
+
+                        <div class="mb-6">
+                            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2.5">Ingredientes principales:</h4>
+                            <ul class="space-y-1.5">
+                                ${meal.displayIngredients.map(ing => `
+                                    <li class="text-sm text-slate-600 flex items-center gap-2">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-sage-500"></span>
+                                        ${ing}
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                    </div>
+
+                    <button onclick="openRecipeModal(${meal.id})" class="w-full py-3.5 px-4 bg-sage-600 hover:bg-sage-700 text-white font-semibold rounded-2xl text-sm transition-colors flex items-center justify-center gap-2 shadow-sm">
+                        <i class="ph ph-book-open-text text-lg"></i> Ver paso a paso
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // ==========================================
+        // LÓGICA SECCIÓN "EN MI COCINA"
+        // ==========================================
+        function renderIngredientChips() {
+            const container = document.getElementById('ingredient-chips-container');
+            container.innerHTML = commonIngredients.map(item => {
+                const isSelected = selectedIngredients.has(item.id);
+                return `
+                    <button onclick="toggleIngredient('${item.id}')" 
+                        class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all border ${
+                            isSelected 
+                            ? 'bg-sage-600 text-white border-sage-600 shadow-sm' 
+                            : 'bg-white text-slate-700 border-slate-200 hover:border-sage-400'
+                        }">
+                        ${item.label} ${isSelected ? '✓' : ''}
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function toggleIngredient(id) {
+            if (selectedIngredients.has(id)) {
+                selectedIngredients.delete(id);
+            } else {
+                selectedIngredients.add(id);
+            }
+            renderIngredientChips();
+            searchRecipesByPantry();
+        }
+
+        function addCustomIngredient() {
+            const input = document.getElementById('custom-ingredient-input');
+            const val = input.value.trim().toLowerCase()
+                .normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // Quitar acentos para búsqueda
+            
+            if (!val) return;
+
+            selectedIngredients.add(val);
+            
+            // Si no existe en commonIngredients, lo agregamos visualmente
+            if (!commonIngredients.some(i => i.id === val)) {
+                commonIngredients.unshift({ id: val, label: `✨ ${input.value.trim()}` });
+            }
+
+            input.value = '';
+            renderIngredientChips();
+            searchRecipesByPantry();
+        }
+
+        function clearSelectedIngredients() {
+            selectedIngredients.clear();
+            renderIngredientChips();
+            searchRecipesByPantry();
+        }
+
+        function searchRecipesByPantry() {
+            const resultsContainer = document.getElementById('pantry-results-container');
+            const titleEl = document.getElementById('match-results-title');
+
+            if (selectedIngredients.size === 0) {
+                titleEl.innerHTML = "Selecciona al menos un ingrediente arriba para ver coincidencias";
+                resultsContainer.innerHTML = "";
+                return;
+            }
+
+            // Calcular coincidencias
+            const scoredRecipes = recipesDB.map(recipe => {
+                const matched = recipe.ingredients.filter(ing => {
+                    const normalizedIng = ing.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                    return Array.from(selectedIngredients).some(sel => normalizedIng.includes(sel) || sel.includes(normalizedIng));
+                });
+
+                return {
+                    ...recipe,
+                    matchedCount: matched.length,
+                    matchedNames: matched
+                };
+            }).filter(r => r.matchedCount > 0)
+              .sort((a, b) => b.matchedCount - a.matchedCount);
+
+            if (scoredRecipes.length === 0) {
+                titleEl.innerHTML = `No encontré recetas exactas con esos ingredientes, pero prueba combinar pollo, arroz o zapallo.`;
+                resultsContainer.innerHTML = "";
+                return;
+            }
+
+            titleEl.innerHTML = `<i class="ph ph-check-circle text-emerald-600 text-xl"></i> Encontré ${scoredRecipes.length} receta(s) compatible(s):`;
+
+            resultsContainer.innerHTML = scoredRecipes.map(recipe => `
+                <div class="bg-white rounded-3xl p-6 border border-sage-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="px-3 py-1 bg-emerald-100 text-emerald-800 rounded-full text-xs font-bold">
+                                Coincide en ${recipe.matchedCount} ingrediente${recipe.matchedCount > 1 ? 's' : ''}
+                            </span>
+                            <span class="text-xs text-slate-400 font-medium">${recipe.type}</span>
+                        </div>
+                        <h4 class="text-lg font-bold text-slate-800 mb-2">${recipe.title}</h4>
+                        <p class="text-xs text-slate-500 mb-4">
+                            <strong>Tienes:</strong> ${recipe.matchedNames.join(', ')}
+                        </p>
+                    </div>
+                    <button onclick="openRecipeModal(${recipe.id})" class="w-full py-2.5 px-4 bg-sage-100 hover:bg-sage-200 text-sage-800 font-semibold rounded-xl text-sm transition-colors">
+                        Ver receta completa
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // ==========================================
+        // LÓGICA SECCIÓN GUÍA DE FRUTAS
+        // ==========================================
+        function filterFruits(status) {
+            // Actualizar botones visuales
+            document.querySelectorAll('.fruit-filter-btn').forEach(btn => {
+                if (btn.dataset.filter === status) {
+                    btn.classList.add('ring-2', 'ring-offset-1', 'ring-slate-400');
+                } else {
+                    btn.classList.remove('ring-2', 'ring-offset-1', 'ring-slate-400');
+                }
+            });
+
+            renderFruits(status);
+        }
+
+        function renderFruits(filterStatus) {
+            const container = document.getElementById('fruits-grid');
+            const filtered = filterStatus === 'todas' 
+                ? fruitsDB 
+                : fruitsDB.filter(f => f.status === filterStatus);
+
+            container.innerHTML = filtered.map(fruit => {
+                let cardStyle = "border-emerald-200 bg-emerald-50/30";
+                let badgeStyle = "bg-emerald-100 text-emerald-800";
+
+                if (fruit.status === 'moderada') {
+                    cardStyle = "border-amber-200 bg-amber-50/30";
+                    badgeStyle = "bg-amber-100 text-amber-800";
+                } else if (fruit.status === 'evitar') {
+                    cardStyle = "border-rose-200 bg-rose-50/30";
+                    badgeStyle = "bg-rose-100 text-rose-800";
+                }
+
+                return `
+                    <div class="rounded-2xl p-5 border ${cardStyle} transition-all">
+                        <div class="flex items-start justify-between gap-2 mb-3">
+                            <div class="flex items-center gap-2.5">
+                                <span class="text-3xl">${fruit.emoji}</span>
+                                <h3 class="font-bold text-slate-800 text-base leading-tight">${fruit.name}</h3>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-lg text-[11px] font-bold whitespace-nowrap ${badgeStyle}">
+                                ${fruit.badge}
+                            </span>
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">${fruit.reason}</p>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ==========================================
+        // MODALES (RECETA Y CONSEJOS)
+        // ==========================================
+        function openRecipeModal(recipeId) {
+            const recipe = recipesDB.find(r => r.id === recipeId);
+            if (!recipe) return;
+
+            const content = document.getElementById('modal-recipe-content');
+            content.innerHTML = `
+                <div class="flex justify-between items-start gap-4 mb-4">
+                    <div>
+                        <span class="inline-block px-3 py-1 bg-sage-100 text-sage-800 rounded-full text-xs font-bold mb-2">
+                            ${recipe.type} • ⏱️ ${recipe.prepTime}
+                        </span>
+                        <h3 class="text-2xl font-bold text-slate-800 leading-snug">${recipe.title}</h3>
+                    </div>
+                    <button onclick="toggleModal('modal-recipe')" class="p-2 text-slate-400 hover:text-slate-600 rounded-xl hover:bg-slate-100 flex-shrink-0">
+                        <i class="ph ph-x text-2xl"></i>
+                    </button>
+                </div>
+
+                <div class="p-4 bg-sage-50 rounded-2xl border border-sage-100 mb-6 text-sm text-sage-800">
+                    <strong>¿Por qué te hace bien?</strong> ${recipe.benefits}
+                </div>
+
+                <div class="mb-6">
+                    <h4 class="font-bold text-slate-800 mb-3 flex items-center gap-2">
+                        <i class="ph ph-basket text-sage-600 text-lg"></i> Ingredientes necesarios
+                    </h4>
+                    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        ${recipe.displayIngredients.map(ing => `
+                            <li class="text-sm text-slate-700 bg-slate-50 px-3.5 py-2 rounded-xl border border-slate-100 flex items-center gap-2">
+                                <i class="ph ph-check text-sage-600 font-bold"></i> ${ing}
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+
+                <div class="mb-6">
+                    <h4 class="font-bold text-slate-800 mb-3 flex items-center gap-2">
+                        <i class="ph ph-cooking-pot text-sage-600 text-lg"></i> Preparación paso a paso
+                    </h4>
+                    <ol class="space-y-3">
+                        ${recipe.steps.map((step, i) => `
+                            <li class="flex gap-3 text-sm text-slate-700 leading-relaxed">
+                                <span class="w-6 h-6 rounded-full bg-sage-600 text-white font-bold text-xs flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    ${i + 1}
+                                </span>
+                                <span>${step}</span>
+                            </li>
+                        `).join('')}
+                    </ol>
+                </div>
+
+                <button onclick="toggleModal('modal-recipe')" class="w-full py-3.5 bg-slate-800 hover:bg-slate-900 text-white font-semibold rounded-2xl transition-colors">
+                    Cerrar receta
+                </button>
+            `;
+
+            toggleModal('modal-recipe');
+        }
+
+        function toggleModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.toggle('hidden');
+        }
+    </script>
+</body>
+</html>
