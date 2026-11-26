@@ -2,7 +2,13 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#3f6552">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="NutriCalma">
+    <link rel="apple-touch-icon" id="apple-touch-icon" href="">
+    <link rel="manifest" id="pwa-manifest" href="">
     <title>NutriCalma | Bienestar para Gastritis y Rosácea</title>
     <!-- Carga de Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -68,8 +74,12 @@
                     </button>
                 </nav>
 
-                <!-- Botones Acciones (Modo Oscuro + Reglas de Oro) -->
+                <!-- Botones Acciones (Instalar PWA + Modo Oscuro + Reglas de Oro) -->
                 <div class="flex items-center gap-2">
+                    <button id="btn-install-pwa" onclick="installPWA()" class="px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white transition-colors flex items-center gap-1.5 text-xs font-semibold shadow-sm" title="Instalar en tu celular o PC">
+                        <i class="ph ph-download-simple text-base"></i>
+                        <span class="hidden sm:inline">Instalar App</span>
+                    </button>
                     <button onclick="toggleDarkMode()" aria-label="Alternar modo oscuro" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-amber-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
                         <i id="dark-mode-icon" class="ph ph-moon text-lg"></i>
                     </button>
@@ -298,6 +308,41 @@
 
             <button onclick="toggleModal('modal-tips')" class="w-full mt-6 py-3 bg-sage-600 hover:bg-sage-700 text-white font-semibold rounded-2xl transition-colors">
                 ¡Entendido!
+            </button>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- MODAL INSTRUCCIONES INSTALACIÓN PWA        -->
+    <!-- ========================================== -->
+    <div id="modal-install" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl max-w-md w-full shadow-2xl border border-sage-100 dark:border-slate-800 p-6 sm:p-7">
+            <div class="flex justify-between items-start mb-4">
+                <div class="flex items-center gap-2.5">
+                    <div class="p-2.5 bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 rounded-xl">
+                        <i class="ph ph-device-mobile text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800 dark:text-white">Instalar NutriCalma</h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">Úsala como una app nativa en tu celular</p>
+                    </div>
+                </div>
+                <button onclick="toggleModal('modal-install')" class="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-white rounded-xl">
+                    <i class="ph ph-x text-xl"></i>
+                </button>
+            </div>
+            <div class="space-y-3 text-xs sm:text-sm text-slate-600 dark:text-slate-300">
+                <div class="p-3.5 bg-slate-50 dark:bg-slate-800/80 rounded-2xl border border-slate-100 dark:border-slate-700">
+                    <strong class="text-slate-800 dark:text-white block mb-1">🤖 En Android (Chrome):</strong>
+                    Toca los <strong>3 puntitos (⋮)</strong> arriba a la derecha y selecciona <strong>"Instalar aplicación"</strong> o <strong>"Agregar a la pantalla principal"</strong>.
+                </div>
+                <div class="p-3.5 bg-slate-50 dark:bg-slate-800/80 rounded-2xl border border-slate-100 dark:border-slate-700">
+                    <strong class="text-slate-800 dark:text-white block mb-1">🍎 En iPhone / iPad (Safari):</strong>
+                    Toca el botón <strong>Compartir (cuadrado con flecha hacia arriba)</strong> abajo en el centro y elige <strong>"Agregar a inicio"</strong>.
+                </div>
+            </div>
+            <button onclick="toggleModal('modal-install')" class="w-full mt-5 py-3 bg-sage-600 hover:bg-sage-700 text-white font-semibold rounded-2xl transition-colors text-sm">
+                ¡Listo!
             </button>
         </div>
     </div>
@@ -730,6 +775,198 @@
                     "Añade el laurel, media taza de agua y una pizca de sal para que se cocine en su propio vapor.",
                     "Hornea a 180°C por 40-45 minutos hasta que todo esté muy tierno. Deja entibiar antes de servir."
                 ]
+            },
+            {
+                id: 21,
+                title: "Albóndigas Tiernas de Pollo y Zucchini al Vapor en Caldo Suave",
+                type: "Almuerzo",
+                prepTime: "30 min",
+                benefits: "Cocidas en caldo suave en lugar de fritas o en salsa roja; súper húmedas y amables con la mucosa gástrica.",
+                ingredients: ["pollo", "calabacin", "zucchini", "avena", "huevo", "zanahoria", "perejil"],
+                displayIngredients: [
+                    "200g de pechuga de pollo procesada o picada fina",
+                    "1/2 zucchini rallado y bien escurrido",
+                    "1 huevo y 2 cdas de avena fina",
+                    "1 zanahoria en rodajas finas para el caldo",
+                    "Perejil fresco y sal suave"
+                ],
+                steps: [
+                    "Mezcla el pollo procesado con el zucchini rallado, el huevo, la avena y perejil picado. Forma bolitas chicas.",
+                    "En una olla, pon a hervir suave 2 tazas de agua con las rodajas de zanahoria y una pizca de sal.",
+                    "Incorpora las albóndigas con cuidado y cocina tapado a fuego bajo por 15 minutos. Sirve tibias con su caldito."
+                ]
+            },
+            {
+                id: 22,
+                title: "Hamburguesas Caseras de Carne Magra y Avena con Puré de Batata",
+                type: "Almuerzo",
+                prepTime: "30 min",
+                benefits: "La avena reemplaza grasas y panificados pesados, logrando medallones jugosos sin irritar el estómago.",
+                ingredients: ["carne", "avena", "huevo", "batata", "aceite de oliva", "oregano"],
+                displayIngredients: [
+                    "200g de carne vacuna magra picada",
+                    "3 cdas de avena arrollada fina hidratada en 2 cdas de agua",
+                    "1 clara de huevo y pizca de orégano",
+                    "1 batata grande para puré",
+                    "1 cdita de aceite de oliva"
+                ],
+                steps: [
+                    "Mezcla la carne magra con la avena hidratada, la clara de huevo, orégano y sal suave. Arma 2 medallones.",
+                    "Cocínalos al horno suave o en sartén antiadherente tapada a fuego bajo (sin quemar la superficie) por 7 minutos de cada lado.",
+                    "Acompaña con puré de batata hervida pisada con aceite de oliva."
+                ]
+            },
+            {
+                id: 23,
+                title: "Ensalada Tibia de Arroz Yamani o Blanco, Pollo, Palta y Zanahoria",
+                type: "Almuerzo",
+                prepTime: "25 min",
+                benefits: "Ideal para días cálidos: la palta (aguacate) aporta grasas saludables antiinflamatorias sin necesidad de aderezos ácidos.",
+                ingredients: ["arroz", "pollo", "palta", "zanahoria", "aceite de oliva"],
+                displayIngredients: [
+                    "1 taza de arroz cocido a temperatura ambiente",
+                    "150g de pechuga de pollo hervida en cubos",
+                    "1/2 palta (aguacate) madura en cubos",
+                    "1 zanahoria rallada fina o cocida al vapor",
+                    "1 cdita de aceite de oliva"
+                ],
+                steps: [
+                    "Deja entibiar el arroz y el pollo cocido (evita comerlos recién sacados de la heladera si tienes gastritis sensible).",
+                    "Mezcla en un bowl el arroz, el pollo, la zanahoria y los cubos de palta.",
+                    "Condimenta suavemente con aceite de oliva y una pizca de sal."
+                ]
+            },
+            {
+                id: 24,
+                title: "Suprema de Pollo al Horno con Costra de Avena y Calabaza Asada",
+                type: "Almuerzo",
+                prepTime: "35 min",
+                benefits: "Croante por fuera sin fritura ni pan con grasa, protegiendo tanto tu digestión como tu piel.",
+                ingredients: ["pollo", "avena", "zapallo", "calabaza", "aceite de oliva", "oregano"],
+                displayIngredients: [
+                    "1 pechuga de pollo abierta",
+                    "3 cdas de avena fina mezclada con orégano",
+                    "250g de calabaza en rodajas finas",
+                    "1 cda de aceite de oliva"
+                ],
+                steps: [
+                    "Pincela la pechuga con apenas aceite de oliva y rebózala presionando sobre la avena con orégano.",
+                    "Colócala en una placa junto con las rodajas de calabaza.",
+                    "Hornea a 180°C por 25 minutos hasta que la calabaza esté tierna y el pollo cocido."
+                ]
+            },
+            {
+                id: 25,
+                title: "Cazuela Suave de Merluza, Papa y Zapallito Verde",
+                type: "Cena",
+                prepTime: "25 min",
+                benefits: "Un plato de cuchara ultra digestivo, rico en agua y sin condimentos irritantes.",
+                ingredients: ["merluza", "pescado", "papa", "zapallito", "perejil", "aceite de oliva"],
+                displayIngredients: [
+                    "1 filet de merluza cortado en trozos grandes",
+                    "1 papa mediana en cubos chicos",
+                    "1 zapallito verde sin semillas en cubos",
+                    "Perejil fresco y 1 cdita de aceite de oliva"
+                ],
+                steps: [
+                    "Hierve los cubos de papa y zapallito en 1.5 tazas de agua con una pizca de sal durante 12 minutos.",
+                    "Agrega los trozos de merluza encima, tapa la olla y cocina a fuego muy bajo por 6 minutos más.",
+                    "Sirve tibio con perejil fresco picado y un hilo de aceite de oliva."
+                ]
+            },
+            {
+                id: 26,
+                title: "Tarta Casera Sin Tapa de Calabaza, Zucchini y Huevo (Masa al Aceite)",
+                type: "Cena",
+                prepTime: "45 min",
+                benefits: "Masa casera súper liviana hecha solo con harina, agua y aceite de oliva (sin manteca ni grasas compradas).",
+                ingredients: ["zapallo", "calabaza", "calabacin", "zucchini", "huevo", "harina", "aceite de oliva"],
+                displayIngredients: [
+                    "Para la masa: 1 taza de harina, 3 cdas de aceite de oliva, agua tibia y pizca de sal",
+                    "200g de calabaza cocida hecha puré",
+                    "1/2 zucchini rallado y cocido al vapor",
+                    "2 huevos batidos"
+                ],
+                steps: [
+                    "Une la harina con el aceite de oliva, sal y agua tibia hasta formar un bollo tierno. Estira y forra una tartera chica.",
+                    "Mezcla el puré de calabaza con el zucchini escurrido y los huevos batidos.",
+                    "Vuelca el relleno sobre la masa y hornea a 180°C por 25-30 minutos. Deja entibiar."
+                ]
+            },
+            {
+                id: 27,
+                title: "Arroz Caldoso con Pollo Desmenuzado y Zanahoria Baby",
+                type: "Cena",
+                prepTime: "30 min",
+                benefits: "El caldo de arroz con zanahoria es uno de los mejores calmantes naturales para episodios de gastritis.",
+                ingredients: ["arroz", "pollo", "zanahoria", "laurel", "aceite de oliva"],
+                displayIngredients: [
+                    "1/2 taza de arroz blanco",
+                    "120g de pechuga de pollo",
+                    "1 zanahoria en rodajas finas",
+                    "1 hoja de laurel y 3 tazas de agua"
+                ],
+                steps: [
+                    "Hierve el pollo con la zanahoria y el laurel en las 3 tazas de agua por 15 minutos.",
+                    "Retira el pollo para desmenuzarlo e incorpora el arroz al caldo hirviendo.",
+                    "Cocina 15 minutos hasta que el arroz esté bien blando, vuelve a sumar el pollo desmenuzado y sirve tibio."
+                ]
+            },
+            {
+                id: 28,
+                title: "Revuelto Suave de Huevos, Papa Hervida en Cubitos y Perejil",
+                type: "Cena",
+                prepTime: "20 min",
+                benefits: "Rápido, saciante y sin fiambres ni quesos que disparen la histamina.",
+                ingredients: ["huevo", "papa", "perejil", "aceite de oliva"],
+                displayIngredients: [
+                    "2 huevos frescos",
+                    "1 papa mediana hervida y cortada en cubitos",
+                    "1 cdita de perejil fresco picado",
+                    "1 cdita de aceite de oliva"
+                ],
+                steps: [
+                    "Calienta suavemente los cubitos de papa ya hervida en una sartén antiadherente con apenas aceite de oliva.",
+                    "Vierte los huevos ligeramente batidos con una pizca de sal y revuelve a fuego muy bajo hasta que cuajen cremosos (sin secarse).",
+                    "Termina con perejil fresco."
+                ]
+            },
+            {
+                id: 29,
+                title: "Filet de Pescado Blanco al Horno con Colchón de Hinojo y Papa",
+                type: "Almuerzo",
+                prepTime: "35 min",
+                benefits: "El hinojo cocido es carminativo y digestivo por excelencia, ideal para desinflamar el abdomen.",
+                ingredients: ["merluza", "pescado", "hinojo", "papa", "aceite de oliva"],
+                displayIngredients: [
+                    "1 filet de merluza o brótola",
+                    "1/2 bulbo de hinojo cortado en tiras finas",
+                    "1 papa mediana en rodajas finas",
+                    "1 cda de aceite de oliva"
+                ],
+                steps: [
+                    "Hierve por 6 minutos las tiras de hinojo y las rodajas de papa para ablandarlas.",
+                    "Colócalas en una fuente para horno con un hilo de aceite de oliva, pon el pescado encima y tapa con papel aluminio.",
+                    "Hornea a 180°C por 15 minutos. Sirve tibio."
+                ]
+            },
+            {
+                id: 30,
+                title: "Canelones o Panqueques Livianos (Sin Leche) Rellenos de Pollo y Calabaza",
+                type: "Almuerzo",
+                prepTime: "45 min",
+                benefits: "Masa de panqueques hecha con agua y avena/harina (100% libre de lácteos) con un relleno suave y nutritivo.",
+                ingredients: ["pollo", "zapallo", "calabaza", "huevo", "harina", "avena", "aceite de oliva"],
+                displayIngredients: [
+                    "Para los panqueques: 1 huevo, 1/2 taza de harina o avena fina, 1/2 taza de agua y 1 cdita de aceite",
+                    "Relleno: 150g de pollo cocido picado y 150g de puré de calabaza",
+                    "1 cdita de aceite de oliva para servir"
+                ],
+                steps: [
+                    "Licúa el huevo con el agua, la harina/avena y el aceite. Haz 3 o 4 panqueques finos en sartén antiadherente a fuego bajo.",
+                    "Mezcla el pollo picado bien fino con el puré de calabaza tibio.",
+                    "Rellena los panqueques, enróllalos y caliéntalos 5 minutos en horno suave con un hilo de aceite de oliva por encima."
+                ]
             }
         ];
 
@@ -752,7 +989,9 @@
             { id: "chauchas", label: "🫛 Chauchas" },
             { id: "atun", label: "🥫 Atún al natural" },
             { id: "esparragos", label: "🌱 Espárragos" },
-            { id: "avena", label: "🌾 Avena" }
+            { id: "avena", label: "🌾 Avena" },
+            { id: "palta", label: "🥑 Palta" },
+            { id: "hinojo", label: "🌿 Hinojo" }
         ];
 
         // Base de datos de Frutas para Gastritis y Rosácea
@@ -848,10 +1087,12 @@
         let selectedDayIndex = 0; // Lunes por defecto
         let weeklyPlan = [];
         let selectedIngredients = new Set();
+        let deferredPrompt = null;
 
         // Inicialización al cargar la ventana
         window.onload = function() {
             initTheme();
+            initPWA();
             generateWeeklyPlan();
             renderDaysSelector();
             renderDailyMeals();
@@ -865,6 +1106,79 @@
                 }
             });
         };
+
+        // Configuración Progressive Web App (PWA) autocontenida
+        function initPWA() {
+            // 1. Generar ícono SVG en Data URI para el Manifest y Apple Touch Icon
+            const svgIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="112" fill="#3f6552"/><path d="M368 144c-96 0-184 48-216 144-12 36-8 76 8 108 12-44 44-84 96-112-40 36-64 76-72 116 32 8 68 4 100-12 76-38 112-128 84-244z" fill="#ffffff"/></svg>`;
+            const iconUrl = 'data:image/svg+xml;base64,' + btoa(svgIcon);
+            
+            const appleIcon = document.getElementById('apple-touch-icon');
+            if (appleIcon) appleIcon.href = iconUrl;
+
+            // 2. Generar Web App Manifest dinámicamente
+            const manifest = {
+                name: "NutriCalma - Gastritis y Rosácea",
+                short_name: "NutriCalma",
+                description: "Planificador semanal y buscador de recetas para gastritis y rosácea.",
+                start_url: window.location.href,
+                display: "standalone",
+                background_color: "#faf9f6",
+                theme_color: "#3f6552",
+                orientation: "portrait-primary",
+                icons: [
+                    {
+                        src: iconUrl,
+                        sizes: "512x512",
+                        type: "image/svg+xml",
+                        purpose: "any maskable"
+                    }
+                ]
+            };
+
+            const manifestBlob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
+            const manifestUrl = URL.createObjectURL(manifestBlob);
+            const manifestLink = document.getElementById('pwa-manifest');
+            if (manifestLink) manifestLink.href = manifestUrl;
+
+            // 3. Registrar Service Worker inline para soporte offline
+            if ('serviceWorker' in navigator && (window.location.protocol === 'https:' || window.location.hostname === 'localhost')) {
+                const swCode = `
+                    const CACHE_NAME = 'nutricalma-v1';
+                    self.addEventListener('install', (e) => {
+                        self.skipWaiting();
+                    });
+                    self.addEventListener('activate', (e) => {
+                        e.waitUntil(clients.claim());
+                    });
+                    self.addEventListener('fetch', (e) => {
+                        e.respondWith(
+                            fetch(e.request).catch(() => caches.match(e.request))
+                        );
+                    });
+                `;
+                const swBlob = new Blob([swCode], { type: 'application/javascript' });
+                const swUrl = URL.createObjectURL(swBlob);
+                navigator.serviceWorker.register(swUrl).catch(() => {});
+            }
+
+            // 4. Capturar evento nativo de instalación en Chrome/Android/Edge
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+            });
+        }
+
+        function installPWA() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then(() => {
+                    deferredPrompt = null;
+                });
+            } else {
+                toggleModal('modal-install');
+            }
+        }
 
         // Gestión del Modo Oscuro
         function initTheme() {
